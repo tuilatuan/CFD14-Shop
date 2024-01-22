@@ -19,4 +19,10 @@ export const productService = {
   getProductReview(id = "", query = "") {
     return axiosInstance.get(`/reviews/product/${id}${query}`);
   },
+  addProductToWishlist(payload) {
+    return axiosInstance.post(`/customer/white-list`, payload);
+  },
+  removeProductInWishlist(payload) {
+    return axiosInstance.delete(`/customer/white-list`, { data: payload });
+  },
 };

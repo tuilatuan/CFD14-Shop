@@ -2,13 +2,14 @@ import React from "react";
 import tokenMethod from "../../utils/token";
 import { Link, useNavigate } from "react-router-dom";
 import PATHS from "../../constants/path";
-import { useAuthContext } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout, handleShowModal } from "../../store/reducers/authReducer";
+import { clearWishlist } from "../../store/reducers/wishlistReducer";
 
 const HeaderTop = () => {
   // const { profile } = useAuthContext();
   const { profile } = useSelector((state) => state.auth);
+  const { wishlist } = useSelector((state) => state.wishlist);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { firstName, email } = profile || "";
@@ -20,6 +21,7 @@ const HeaderTop = () => {
   const _onSignOut = (e) => {
     e.preventDefault();
     dispatch(handleLogout());
+    dispatch(clearWishlist());
     navigate(PATHS.HOME);
   };
   return (
@@ -36,7 +38,11 @@ const HeaderTop = () => {
               {/* Not LogIn */}
               <ul className="top-menu top-link-menu">
                 <li>
-                  <a href="#signin-modal" className="top-menu-login" onClick={_onShowModal}>
+                  <a
+                    href="#signin-modal"
+                    className="top-menu-login"
+                    onClick={_onShowModal}
+                  >
                     <i className="icon-user" />
                     Login | Resgister{" "}
                   </a>
@@ -63,7 +69,7 @@ const HeaderTop = () => {
                         </li>
                         <li>
                           <Link to={PATHS.PROFILE.WISHLIST}>
-                            Wishlist <span>(3)</span>
+                            Wishlist <span>({wishlist?.length})</span>
                           </Link>
                         </li>
                         <li>

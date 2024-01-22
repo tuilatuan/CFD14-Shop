@@ -2,9 +2,9 @@ import axiosInstance from "../utils/axiosInstance";
 
 export const cartService = {
   getCart() {
-    return axiosInstance.get(`carts/me`);
+    return axiosInstance.get(`/carts/me`);
   },
-  updateMyCart(payload = "") {
+  updateMyCart(payload = {}) {
     return axiosInstance.put(`/carts`, payload);
   },
 };

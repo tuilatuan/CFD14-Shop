@@ -96,7 +96,9 @@ const useProductPage = () => {
       : [queryObject.category, cateId];
 
     if (!isChecked) {
-      newCategoryFilter = newCategoryFilter.filter((category) => category !== cateId);
+      newCategoryFilter = newCategoryFilter.filter(
+        (category) => category !== cateId
+      );
     }
     if (cateId === "") {
       newCategoryFilter = [];

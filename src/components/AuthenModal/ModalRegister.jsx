@@ -1,11 +1,6 @@
 import React from "react";
-import { MODAL_TYPE } from "../../constants/general";
-import cn from "../../utils/cn";
 import Input from "../Input";
-import PATHS from "../../constants/path";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../context/AuthContext";
 import { MESSAGE, REGREX } from "../../constants/regex";
 import { useDispatch, useSelector } from "react-redux";
 import { handleRegister } from "../../store/reducers/authReducer";
@@ -15,15 +10,12 @@ import ComponentLoading from "../ComponentLoading";
 const ModalRegister = ({ modalType }) => {
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  // const { handleRegister } = useAuthContext();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  // console.log("watch", watch("email"));
-  // console.log("errors", errors);
   const _onSubmit = async (data) => {
     if (data && !loading.register) {
       try {
@@ -41,7 +33,7 @@ const ModalRegister = ({ modalType }) => {
     }
   };
   const renderLoading = useDebounce(loading.register, 300);
-  console.log("renderLoading", renderLoading);
+  // console.log("renderLoading", renderLoading);
   return (
     <div className="tab-pane fade show active" id="register">
       <form onSubmit={handleSubmit(_onSubmit)} style={{ position: "relative" }}>

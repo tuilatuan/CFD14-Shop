@@ -18,11 +18,12 @@ const HomePage = () => {
     brands,
     serviceProps,
     getDealProps,
+    loading,
   } = useHomePage();
   return (
     <main className="main">
       <IntroSection {...introProps} />
-      <HotProductSection {...hotProductProps} />
+      <HotProductSection {...hotProductProps} {...loading} />
       <div className="mb-7 mb-lg-11" />
       <DealSection {...dealProps} />
       {/* brand seciton */}

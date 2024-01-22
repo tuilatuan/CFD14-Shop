@@ -22,4 +22,26 @@ export const authService = {
       },
     });
   },
+  getOrderMe() {
+    return axiosInstance.get(`/order/me`);
+  },
+  getDataProvince() {
+    return axiosInstance.get(`/provinces`);
+  },
+  getDataProvinceById(id) {
+    return axiosInstance.get(`/provinces/${id}`);
+  },
+  getDataDistrict(id) {
+    return axiosInstance.get(`/districts?province=${id}`);
+  },
+  getDataDistrictById(id) {
+    return axiosInstance.get(`/districts/${id}`);
+  },
+
+  getDataWard(id) {
+    return axiosInstance.get(`/wards?district=${id}`);
+  },
+  getDataWardById(id) {
+    return axiosInstance.get(`/wards/${id}`);
+  },
 };

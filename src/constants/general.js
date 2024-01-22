@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 export const MODAL_TYPE = {
   login: "login",
   register: "register",
@@ -37,3 +39,32 @@ export const PRICE_FIlTER = {
   minPrice: 0,
   maxPrice: 1000,
 };
+export const THUNK_STATUS = {
+  pending: "pending",
+  fullfilled: "fullfilled",
+  rejected: "rejected",
+};
+
+export const SHIPPING_OPTIONS = [
+  {
+    value: "free",
+    label: "Free Shipping",
+    price: 0,
+  },
+  {
+    value: "standard",
+    label: "Standard",
+    price: 10,
+  },
+  {
+    value: "express",
+    label: "Express",
+    price: 20,
+  },
+];
+
+export const PAYMENT_MENTHOD = {
+  cash: "cash",
+  card: "card",
+};
+export const cn = classNames;

@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import owlCarousels from "../../utils/owlCarousels";
 import cn from "../../utils/cn";
 import ProductCard from "../../components/ProductCard";
+import { Skeleton } from "antd";
 const TABS = {
   featured: "Featured",
   on_sale: "On Sale",
   top_rated: "Top Rated",
 };
 
-const HotProductSection = ({ featuredProducts, onSaleProducts, topRatedProducts }) => {
+const HotProductSection = ({
+  featuredProducts,
+  onSaleProducts,
+  topRatedProducts,
+  loading,
+}) => {
   const [selectedTab, setSelectedTab] = useState(TABS.featured);
-
   useEffect(() => {
     owlCarousels();
   }, [selectedTab, featuredProducts, onSaleProducts, topRatedProducts]);
-
   const _onTabChange = (e, tab) => {
     e.preventDefault();
     setSelectedTab("");
@@ -40,7 +44,10 @@ const HotProductSection = ({ featuredProducts, onSaleProducts, topRatedProducts 
   const renderProducts = _getSelectedProducts(selectedTab);
   return (
     <div className="container featured" style={{ height: 550 }}>
-      <ul className="nav nav-pills nav-border-anim nav-big justify-content-center mb-3" role="tablist">
+      <ul
+        className="nav nav-pills nav-border-anim nav-big justify-content-center mb-3"
+        role="tablist"
+      >
         <li className="nav-item">
           <a
             className={cn(`nav-link`, {

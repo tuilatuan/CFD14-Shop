@@ -1,16 +1,16 @@
 import axiosInstance from "../utils/axiosInstance";
 
 export const orderService = {
-  getOrderHistories() {
-    return axiosInstance.get("/orders/me");
+  getVoucher(id = "") {
+    return axiosInstance.get(`/orders/voucher/${id}`);
   },
-  getOrderHistoriesbyId(slug = "") {
+  getOrder() {
+    return axiosInstance.get(`/orders/me`);
+  },
+  getOrderbyId(id = "") {
     return axiosInstance.get(`/orders/${id}/me`);
   },
-  orderProduct(payload = "") {
+  checkout(payload = "") {
     return axiosInstance.post("/orders", payload);
-  },
-  getOrderVoucher(slug = "") {
-    return axiosInstance.get(`/orders/voucher/${slug}`);
   },
 };

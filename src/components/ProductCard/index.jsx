@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import PATHS from "../../constants/path";
 import { Link } from "react-router-dom";
 import { Empty } from "antd";
 import { formatCurrency } from "../../utils/format";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddCart } from "../../store/reducers/cartReducer";
+import { handleAddProductWishList } from "../../store/reducers/wishlistReducer";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -15,11 +18,37 @@ const ImageWrapper = styled.div`
 `;
 
 const ProductCard = ({ product }) => {
-  const { id, slug, title, price, rating, images, discount } = product || {};
+  const dispatch = useDispatch();
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { id, slug, title, price, rating, images, discount, color } = product || {};
   const productPath = PATHS.PRODUCT.INDEX + `/${slug}`;
+
+  const isAddedWishlist = useMemo(() => {
+    return wishlist?.some((product) => product.id === id);
+  }, [wishlist, id]);
 
   const _onAddtoCart = (e) => {
     e?.preventDefault();
+
+    const addPayload = {
+      addedId: id,
+      addedColor: color?.[0] || "",
+      addedQuantity: 1,
+      addedPrice: price - discount,
+    };
+    dispatch(handleAddCart(addPayload));
+  };
+  const _onAddToWishlist = async (e) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    const payload = {
+      product: id,
+    };
+    dispatch(handleAddProductWishList(payload));
+  };
+
+  const addedStyle = {
+    backgroundColor: isAddedWishlist ? "#ef837b" : "#fcb941",
   };
   return (
     <div className="product product-2">
@@ -42,16 +71,22 @@ const ProductCard = ({ product }) => {
           ) : (
             <ImageWrapper>
               <Empty
-                description=""
-                // props này mặc định của Antd Empty, dùng để thay đổi ảnh của Empty
+                description="There is no product "
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
               />
             </ImageWrapper>
           )}
         </Link>
         <div className="product-action-vertical">
-          <a href="#" className="btn-product-icon btn-wishlist btn-expandable">
-            <span>add to wishlist</span>
+          <a
+            style={addedStyle}
+            href="#"
+            onClick={_onAddToWishlist}
+            className="btn-product-icon btn-wishlist btn-expandable"
+          >
+            <span style={addedStyle}>
+              {isAddedWishlist ? "Added" : "Add"} to wishlist
+            </span>
           </a>
         </div>
         <div className="product-action product-action-dark">

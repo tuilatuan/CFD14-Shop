@@ -3,7 +3,6 @@ import Select from "../../components/Select";
 import { SORT_OPTIONS } from "../../constants/general";
 
 const ProductToolbox = ({ showNumb, totalNumb, activeSort, onSortChange }) => {
-  console.log("activeSort", activeSort);
   const onSelectChange = (e) => {
     onSortChange?.(e.target.value);
   };

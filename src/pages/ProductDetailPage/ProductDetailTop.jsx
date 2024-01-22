@@ -22,6 +22,7 @@ const ProductDetailTop = ({
   quantityRef,
   handleAddToCart,
   handleAddToWishList,
+  isAddedWishList,
 }) => {
   const pathUrl = window.location.href;
   const categoryPath = category?.id && PATHS.PRODUCT + `?category=${category?.id}`;
@@ -34,6 +35,9 @@ const ProductDetailTop = ({
     e?.preventDefault();
     e?.stopPropagation();
     handleAddToWishList?.();
+  };
+  const addedStyle = {
+    color: isAddedWishList ? "#ef837b" : "#fcb941",
   };
   return (
     <div className="product-details-top">
@@ -82,9 +86,19 @@ const ProductDetailTop = ({
                   href="#"
                   className="btn-product btn-wishlist"
                   title="Wishlist"
+                  style={addedStyle}
                   onClick={_onAddToWishList}
                 >
-                  <span>Add to Wishlist</span>
+                  <span
+                    style={{
+                      ...addedStyle,
+                      boxShadow: isAddedWishList
+                        ? "0 1px 0 0 #ef837b"
+                        : "0 1px 0 0 #fcb941",
+                    }}
+                  >
+                    {isAddedWishList ? "Added" : "Add"} to Wishlist
+                  </span>
                 </a>
               </div>
             </div>

@@ -17,8 +17,8 @@ const PATHS = {
   },
   PROFILE: {
     INDEX: PROFILE_PATH,
-    DASHBOARD: PROFILE_PATH + "/dashboard",
     ORDER: PROFILE_PATH + "/order",
+    CHANGEPASS: PROFILE_PATH + "/changepass",
     ADRESSES: PROFILE_PATH + "/adresses",
     WISHLIST: PROFILE_PATH + "/wishlist",
   },

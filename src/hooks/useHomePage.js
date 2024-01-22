@@ -30,6 +30,7 @@ const useHomePage = () => {
     featuredProducts,
     onSaleProducts,
     topRatedProducts,
+    loading,
   };
   //deal section
   const dealProducts = onSaleProducts.filter((product) => product.discount > 0);

@@ -3,6 +3,11 @@ import { message } from "antd";
 import tokenMethod from "../../utils/token";
 import { authService } from "../../services/authService";
 import { handleGetCart } from "./cartReducer";
+import thunk from "redux-thunk";
+import { updateWishlist } from "./wishlistReducer";
+import axiosInstance from "../../utils/axiosInstance";
+import { formatDate } from "../../utils/format";
+import { orderService } from "../../services/orderService";
 
 const initialState = {
   showedModal: false,
@@ -11,6 +16,7 @@ const initialState = {
     login: false,
     register: false,
     getProfile: false,
+    updateOrder: false,
   },
 };
 
@@ -62,6 +68,16 @@ export const authSlice = createSlice({
       })
       .addCase(handleRegister.pending, (state) => {
         state.loading.register = true;
+      })
+      .addCase(handleGetOrder.fulfilled, (state, action) => {
+        state.loading.updateOrder = false;
+        state.profile.orders = action.payload;
+      })
+      .addCase(handleGetOrder.rejected, (state) => {
+        state.loading.updateOrder = false;
+      })
+      .addCase(handleGetOrder.pending, (state) => {
+        state.loading.updateOrder = true;
       });
   },
 });
@@ -78,7 +94,6 @@ export const handleLogin = createAsyncThunk(
       const res = await authService.login(payload);
       if (res?.data.data) {
         console.log("tra ve token", res.data.data);
-        message.success("Đăng nhập thành công");
         const { token: accessToken, refreshToken } = res.data.data || {};
         //luu token
         tokenMethod.set({ accessToken, refreshToken });
@@ -87,10 +102,11 @@ export const handleLogin = createAsyncThunk(
         dispatch(handleGetProfile());
         dispatch(handleGetCart());
         dispatch(handleCloseModal());
+        message.success("Đăng nhập thành công");
       }
       return true;
     } catch (error) {
-      message.success("Đăng nhập thất bại");
+      message.error("Đăng nhập thất bại");
       console.log("error", error);
     } finally {
       // setTimeout(() => {
@@ -135,14 +151,91 @@ export const handleRegister = createAsyncThunk(
 
 export const handleGetProfile = createAsyncThunk(
   "auth/getProfile",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
     if (tokenMethod.get()) {
       try {
         const profileRes = await authService.getProfile();
+        dispatch(updateWishlist(profileRes?.data?.data?.whiteList));
+        dispatch(handleGetOrder());
         return profileRes?.data?.data;
       } catch (error) {
         rejectWithValue(error?.response?.data);
         console.log("lay profile khong thanh cong");
+      }
+    }
+  }
+);
+
+export const handleUpdateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (updateData, { dispatch, getState, rejectWithValue }) => {
+    try {
+      console.log("updateData :>> ", updateData);
+      const { firstName, phone, birthday, province, district, ward, street } =
+        updateData || {};
+
+      const payloadUpdate = {
+        firstName: firstName,
+        lastName: "",
+        phone: phone,
+        birthday: birthday,
+        // province: province?.label,
+        // district: district?.label,
+        // ward: ward?.label,
+        street: `${street}, ${ward?.label || ""}, ${district?.label || ""}, ${
+          province?.label || ""
+        } `,
+      };
+
+      const res = await authService.updateProfiles(payloadUpdate);
+      dispatch(handleGetProfile());
+
+      console.log("res :>> ", res);
+    } catch (error) {
+      console.log("error :>> ", error);
+      // return rejectWithValue(error);
+    }
+  }
+);
+
+export const handleChangePass = createAsyncThunk(
+  "auth/updateProfile",
+  async (passData, { dispatch, rejectWithValue }) => {
+    try {
+      const { firstName, phone, password, newPassword } = passData || {};
+      const payload = {
+        firstName: firstName,
+        lastName: "",
+        phone: phone,
+        password: password,
+        newPassword: newPassword,
+      };
+      const res = await authService.updateProfiles(payload);
+      if (res?.data?.data.id) {
+        message.success("Cập nhật mật khẩu thành công");
+        dispatch(handleGetProfile());
+        return true;
+      } else {
+        throw false;
+      }
+      message.success("Cập nhật mật khẩu thành công");
+    } catch (error) {
+      console.log("error :>> ", error);
+      message.error("Cập nhật mật khẩu thất bại");
+      return false;
+    }
+  }
+);
+
+export const handleGetOrder = createAsyncThunk(
+  "auth/getOrder",
+  async (_, { dispatch, rejectWithValue }) => {
+    if (tokenMethod.get()) {
+      try {
+        const orderRes = await orderService.getOrder();
+        return orderRes?.data?.data.orders;
+      } catch (error) {
+        console.log("error :>> ", error);
       }
     }
   }

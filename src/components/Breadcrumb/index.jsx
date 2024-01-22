@@ -11,7 +11,9 @@ const Breadcrumb = ({ className, children }) => {
 };
 
 const BreadcrumbItem = ({ children, isActive = false }) => {
-  return <li className={`breadcrumb-item ${isActive ? "active" : ""}`}>{children}</li>;
+  return (
+    <li className={`breadcrumb-item ${isActive ? "active" : ""}`}>{children}</li>
+  );
 };
 
 Breadcrumb.Item = BreadcrumbItem;

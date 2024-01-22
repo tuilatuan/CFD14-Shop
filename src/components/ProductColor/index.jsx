@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
 const ProductColor = ({ colors, defaultColor, onChange }, ref) => {
-  console.log("defaultColor", defaultColor);
   const [selectedColor, setSelectedColor] = useState(defaultColor);
   useImperativeHandle(ref, () => {
     return {

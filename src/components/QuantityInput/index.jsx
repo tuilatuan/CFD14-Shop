@@ -11,7 +11,7 @@ const InputNumberStyle = styled.input`
 `;
 
 const QuantityInput = (
-  { className, defaultValue, min = 1, max = 10, step = 1, onChange, ...inputProps },
+  { className, defaultValue = 1, min = 1, max = 10, step = 1, onChange, ...inputProps },
   ref
 ) => {
   const [currentQuantity, setCurrentQuantity] = useState(defaultValue ?? 1);
@@ -29,8 +29,14 @@ const QuantityInput = (
   }, [currentQuantity]);
 
   const _onInputChange = (e) => {
-    setCurrentQuantity(_modifyValue(Number(e.target.value)));
+    setCurrentQuantity(e.target.value !== "" ? _modifyValue(Number(e.target.value)) : "");
   };
+  const _onInputBlur = () => {
+    if (currentQuantity === "") {
+      setCurrentQuantity(defaultValue);
+    }
+  };
+
   const _onIncrease = () => {
     const value = _modifyValue(Number(currentQuantity) + Number(step));
     setCurrentQuantity(value);
@@ -51,38 +57,6 @@ const QuantityInput = (
   };
 
   return (
-    // <div className={className}>
-    //   <div className="input-group  input-spinner">
-    //     <div className="input-group-prepend">
-    //       <button
-    //         className="btn btn-decrement btn-spinner"
-    //         style={{ minWidth: 26 }}
-    //         onClick={_onDecrease}
-    //       >
-    //         <i className="icon-minus" />
-    //       </button>
-    //     </div>
-    //     <InputNumberStyle
-    //       type="number"
-    //       className="form-control"
-    //       style={{ textAlign: "center" }}
-    //       value={currentQuantity}
-    //       onChange={_onInputChange}
-    //       max={max}
-    //       {...inputProps}
-    //     />
-    //     <div className="input-group-append">
-    //       <button
-    //         className="btn btn-increment btn-spinner"
-    //         style={{ minWidth: 26 }}
-    //         type="button"
-    //         onClick={_onIncrease}
-    //       >
-    //         <i className="icon-plus"></i>
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
     <div className={className}>
       <div className="input-group  input-spinner">
         <div className="input-group-prepend">
@@ -100,6 +74,7 @@ const QuantityInput = (
           style={{ textAlign: "center" }}
           value={currentQuantity}
           onChange={_onInputChange}
+          onBlur={_onInputBlur}
           max={max}
           {...inputProps}
         />
