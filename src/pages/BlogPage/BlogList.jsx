@@ -2,12 +2,23 @@ import React from "react";
 import Pagination from "../../components/Pagiantion";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import PATHS from "../../constants/path";
+import moment from "moment";
 
 const BlogSkeletonStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding-bottom: 5%;
+`;
+
+const ContentBlog = styled.div`
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-bottom: 1.3rem;
 `;
 
 const BlogList = ({ blogs, pagiProps, loadingBlog }) => {
@@ -34,19 +45,20 @@ const BlogList = ({ blogs, pagiProps, loadingBlog }) => {
       <div className="entry-container max-col-2" data-layout="fitRows">
         {blogs?.length > 0 ? (
           blogs?.map((blogItem, index) => {
-            const { name, image, description, slug, author } = blogItem;
-
+            const { name, image, description, slug, author, createdAt } = blogItem;
+            const blogPath = PATHS.BLOG.INDEX + `/${slug}`;
+            const formatDate = moment(createdAt).format("MMM DD, YYYY");
             return (
               <div className="entry-item col-sm-6" key={index}>
                 <article className="entry entry-grid">
                   <figure className="entry-media">
-                    <a href="blog-single.html">
+                    <Link to={blogPath}>
                       <img src={image} alt={name} />
-                    </a>
+                    </Link>
                   </figure>
                   <div className="entry-body">
                     <div className="entry-meta">
-                      <span>Nov 22, 2018</span>
+                      <span>{formatDate}</span>
                       <span className="meta-separator">|</span>
                       <span className="entry-author">
                         {" "}
@@ -54,18 +66,18 @@ const BlogList = ({ blogs, pagiProps, loadingBlog }) => {
                       </span>
                     </div>
                     <h2 className="entry-title">
-                      <a href="blog-single.html">{name}</a>
+                      <Link to={blogPath}>{name}</Link>
                     </h2>
-                    <div className="entry-content">
-                      <p>
-                        Nam dui mi, tincidunt quis, accumsan porttitor, facilisis
-                        luctus, metus. Phasellus ultrices nulla quis nibh. Quisque
-                        lectus. Donec consectetuer ...
-                      </p>
-                      <Link href="blog-single.html" className="read-more">
-                        Read More
-                      </Link>
-                    </div>
+                    <ContentBlog className="entry-content">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: description,
+                        }}
+                      />
+                    </ContentBlog>
+                    <Link to={blogPath} className="read-more">
+                      Read More
+                    </Link>
                   </div>
                 </article>
               </div>

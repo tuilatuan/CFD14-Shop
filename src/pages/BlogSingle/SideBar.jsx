@@ -1,47 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Input from "../../components/Input";
-import { MESSAGE } from "../../constants/regex";
-import { useForm } from "react-hook-form";
 import moment from "moment";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PATHS from "../../constants/path";
 
-const SideBar = ({ tagsData, blogTypeArray, searchString, blogPopular }) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+const SideBar = ({ tagsData, blogTypeArray, searchCate, blogPopular }) => {
+  const navigate = useNavigate();
   const Tags = tagsData?.blogs || {};
-  const _onSubmit = (data) => {
-    searchString?.(data.search);
-    reset?.();
+
+  const _onSubmit = (cate, e) => {
+    // e?.preventDefault();
+    searchCate?.(cate);
   };
   return (
     <aside className="col-lg-3">
       <div className="sidebar">
         <div className="widget widget-search">
           <h3 className="widget-title">Search</h3>
-          <form>
-            {/* <input
+          <form action="#">
+            <label htmlFor="ws" className="sr-only">
+              Search in blog
+            </label>
+            <input
               type="search"
               className="form-control"
               name="ws"
               id="ws"
               placeholder="Search in blog"
               required
-            /> */}
-            <Input
-              type="search"
-              placeholder="Search in blog"
-              {...register("search")}
             />
-            <button
-              onClick={handleSubmit(_onSubmit)}
-              className="btn"
-              style={{ top: "70%" }}
-            >
+            <button type="submit" className="btn">
               <i className="icon-search" />
               <span className="sr-only">Search</span>
             </button>
@@ -102,7 +89,11 @@ const SideBar = ({ tagsData, blogTypeArray, searchString, blogPopular }) => {
           <div className="tagcloud">
             {Tags?.length > 0 ? (
               Tags.map((tag, index) => {
-                return <Link key={index}>{tag.name}</Link>;
+                return (
+                  <Link key={index} onClick={() => _onSubmit(tag.name)}>
+                    {tag.name}
+                  </Link>
+                );
               })
             ) : (
               <p>No data</p>

@@ -3,8 +3,8 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { Link } from "react-router-dom";
 import PATHS from "../../constants/path";
 import SideBar from "./SideBar";
-import useBlogPage from "./useBlogPage";
 import BlogList from "./BlogList";
+import useBlogPage from "../../hooks/useBlogPage";
 
 const BlogPage = () => {
   const { blogListData, sideBarData } = useBlogPage();

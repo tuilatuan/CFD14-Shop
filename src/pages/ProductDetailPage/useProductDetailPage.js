@@ -20,6 +20,7 @@ const useProductDetailPage = () => {
     () => productService.getProductDetail(productsId),
     [productsId]
   );
+  console.log("productDetailData :>> ", productDetailData);
   const { id, name, description, shippingReturn, price, discount } =
     productDetailData || {};
   const { data: productDetailReviews } = useQuery(

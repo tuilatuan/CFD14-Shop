@@ -55,7 +55,11 @@ const ProductDetailTop = ({
                   style={{ width: `${transformNumberToPercent(rating)}%` }}
                 />
               </div>
-              <a className="ratings-text" href="#product-review-link" id="review-link">
+              <a
+                className="ratings-text"
+                href="#product-review-link"
+                id="review-link"
+              >
                 ( {reviews?.length} Reviews )
               </a>
             </div>

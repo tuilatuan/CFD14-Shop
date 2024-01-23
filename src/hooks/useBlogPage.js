@@ -1,17 +1,26 @@
 import React, { useEffect } from "react";
-import { blogService } from "../../services/blogService";
-import useQuery from "../../hooks/useQuery";
-import useMutation from "../../hooks/useMutation";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { blogService } from "../services/blogService";
+import useQuery from "./useQuery";
+import useMutation from "./useMutation";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import queryString from "query-string";
+import PATHS from "../constants/path";
 
 const BLOG_LIMIT = 6;
 
 const useBlogPage = () => {
   const { search } = useLocation();
+  const navigate = useNavigate();
   const queryObject = queryString.parse(search);
 
   const [_, setSearchParams] = useSearchParams();
+
+  const {
+    data: blogsAll,
+    loading: loadingAll,
+    error,
+    fetch,
+  } = useQuery(blogService.getBlog);
 
   const {
     data: blogsData,
@@ -23,8 +32,15 @@ const useBlogPage = () => {
   const { data: tagsData, loading: loadingTag } = useQuery(blogService.getBlogTags);
   const blogs = blogsData?.blogs || [];
   const blogsPagi = blogsData?.pagination || {};
-
-  //   console.log(" blogsData:>> ", blogsData);
+  let count = 0;
+  const blogPopular =
+    blogs.filter((item) => {
+      if (item.isPopular && count < 4) {
+        count++;
+        return true;
+      }
+      return false;
+    }) || {};
 
   useEffect(() => {
     fetchBlogs(search);
@@ -38,6 +54,19 @@ const useBlogPage = () => {
     setSearchParams(new URLSearchParams(newQueryString));
   };
 
+  //search theo srting
+  const searchString = (searchString) => {
+    updateQueryString({ ...queryObject, search: searchString });
+  };
+
+  //search theo cate
+  const searchCate = (cateString) => {
+    updateQueryString({ ...queryObject, category: cateString });
+  };
+
+  //
+
+  //
   const onPaniChange = (page) => {
     updateQueryString({ ...queryObject, page: page });
   };
@@ -49,7 +78,7 @@ const useBlogPage = () => {
     onPaniChange,
   };
 
-  const blogTypesCount = blogs?.reduce((accumulator, blog) => {
+  const blogTypesCount = blogsAll?.blogs.reduce((accumulator, blog) => {
     const blogType = blog.category.name;
     accumulator[blogType] = (accumulator[blogType] || 0) + 1;
     return accumulator;
@@ -67,6 +96,9 @@ const useBlogPage = () => {
   const sideBarData = {
     tagsData,
     blogTypeArray,
+    searchString,
+    blogPopular,
+    searchCate,
   };
   return {
     blogListData,
