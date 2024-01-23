@@ -10,6 +10,7 @@ import useAddress from "../../hooks/useAddress";
 import { PAYMENT_MENTHOD, cn } from "../../constants/general";
 import { Link } from "react-router-dom";
 import PATHS from "../../constants/path";
+import Textarea from "../../components/Textarea";
 
 const FormContainer = styled.form`
   .form-group {
@@ -290,7 +291,7 @@ const CheckoutForm = ({ handleCheckout }) => {
             label="Notes"
             renderInput={(inputProps) => {
               return (
-                <textarea
+                <Textarea
                   {...inputProps}
                   {...register("note")}
                   className="form-control"

@@ -1,20 +1,21 @@
 import React from "react";
 import ContactInfo from "./ContactInfo";
 import ContactForm from "./ContactForm";
+import Breadcrumb from "../../components/Breadcrumb";
+import { Link } from "react-router-dom";
+import PATHS from "../../constants/path";
 
 const ContactPage = () => {
   return (
     <main className="main">
       <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
         <div className="container">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="index.html">Home</a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Contact us
-            </li>
-          </ol>
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <Link to={PATHS.HOME}>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item isActive>Contact Us</Breadcrumb.Item>
+          </Breadcrumb>
         </div>
       </nav>
       <div className="container">
