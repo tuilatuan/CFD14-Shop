@@ -1,8 +1,6 @@
 import React from "react";
 import Pagination from "../../components/Pagiantion";
 import { Link } from "react-router-dom";
-import useDebounce from "../../hooks/useDebounce";
-import { Skeleton } from "antd";
 import styled from "styled-components";
 
 const BlogSkeletonStyle = styled.div`
