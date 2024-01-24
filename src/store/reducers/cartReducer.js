@@ -111,7 +111,8 @@ export const handleAddCart = createAsyncThunk(
           newTotalProduct.push(addedPrice * addedQuantity);
         }
         const newSubtotal =
-          newTotalProduct.reduce((curr, next) => Number(curr) + Number(next), 0) || 0;
+          newTotalProduct.reduce((curr, next) => Number(curr) + Number(next), 0) ||
+          0;
 
         const newTotal = newSubtotal - cartInfo.discount;
 
@@ -162,8 +163,12 @@ export const handleRemoveFormCart = createAsyncThunk(
         ?.filter((_, index) => index !== removedIndex)
         .map((item) => item.id);
 
-      const newQuantity = cartInfo.quantity?.filter((_, index) => index !== removedIndex);
-      const newVariant = cartInfo.variant?.filter((_, index) => index !== removedIndex);
+      const newQuantity = cartInfo.quantity?.filter(
+        (_, index) => index !== removedIndex
+      );
+      const newVariant = cartInfo.variant?.filter(
+        (_, index) => index !== removedIndex
+      );
       const newTotalProduct = cartInfo.totalProduct?.filter(
         (_, index) => index !== removedIndex
       );

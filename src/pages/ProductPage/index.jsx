@@ -9,7 +9,8 @@ import ProductFilter from "./ProductFilter";
 import useProductPage from "./useProductPage";
 
 const ProductPage = () => {
-  const { productListProps, pagiProps, toolboxProps, filterProps } = useProductPage();
+  const { productListProps, pagiProps, toolboxProps, filterProps } =
+    useProductPage();
   return (
     <main className="main">
       <div

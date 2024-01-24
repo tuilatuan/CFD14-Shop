@@ -179,9 +179,9 @@ export const handleUpdateProfile = createAsyncThunk(
         lastName: "",
         phone: phone,
         birthday: birthday,
-        // province: province?.label,
-        // district: district?.label,
-        // ward: ward?.label,
+        province: province?.value,
+        district: district?.value,
+        ward: ward?.value,
         street: `${street}, ${ward?.label || ""}, ${district?.label || ""}, ${
           province?.label || ""
         } `,

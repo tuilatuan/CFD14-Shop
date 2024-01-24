@@ -20,7 +20,8 @@ const ImageWrapper = styled.div`
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const { wishlist } = useSelector((state) => state.wishlist);
-  const { id, slug, title, price, rating, images, discount, color } = product || {};
+  const { id, name, slug, title, price, rating, images, discount, color } =
+    product || {};
   const productPath = PATHS.PRODUCT.INDEX + `/${slug}`;
 
   const isAddedWishlist = useMemo(() => {
@@ -102,7 +103,7 @@ const ProductCard = ({ product }) => {
       </figure>
       <div className="product-body">
         <h3 className="product-title">
-          <Link to={productPath}>{title || ""}</Link>
+          <Link to={productPath}>{name || ""}</Link>
         </h3>
         <div className="product-price">
           {discount ? (
@@ -117,7 +118,10 @@ const ProductCard = ({ product }) => {
         </div>
         <div className="ratings-container">
           <div className="ratings">
-            <div className="ratings-val" style={{ width: `${(rating || 0) * 20}%` }} />
+            <div
+              className="ratings-val"
+              style={{ width: `${(rating || 0) * 20}%` }}
+            />
           </div>
           <span className="ratings-text">( {rating} Reviews )</span>
         </div>

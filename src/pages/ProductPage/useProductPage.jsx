@@ -22,7 +22,9 @@ const useProductPage = () => {
   } = useMutation((query) =>
     productService.getProducts(query || `?limit=${PRODUCT_LIMITS}`)
   );
+
   const products = productsData?.products || [];
+  console.log(" products:>> ", products);
   const productsPagi = productsData?.pagination || {};
 
   const {

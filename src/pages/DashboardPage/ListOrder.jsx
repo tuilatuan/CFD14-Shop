@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PATHS from "../../constants/path";
 import { useDispatch, useSelector } from "react-redux";
-import { orderService } from "../../services/orderService";
-import { handleGetOrder } from "../../store/reducers/authReducer";
-import { createGlobalStyle } from "styled-components";
 import { formatCurrency } from "../../utils/format";
 
 const ListOrder = () => {

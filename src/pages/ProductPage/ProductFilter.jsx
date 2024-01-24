@@ -35,7 +35,7 @@ const ProductFilter = ({
       margin: 200,
       range: {
         min: 0,
-        max: 1000,
+        max: 4500,
       },
       tooltips: true,
       format: wNumb({

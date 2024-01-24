@@ -14,7 +14,8 @@ const FormAccount = ({ profile }) => {
   const dispatch = useDispatch();
   const { firstName, phone, email, province, district, ward, street, birthday } =
     profile || {};
-  const birthdayFormat = formatDate(birthday);
+  const formatDate = new Date(birthday).toISOString().split("T")[0];
+  console.log("formatDate :>> ", formatDate);
   const {
     provinces,
     districts,
@@ -40,7 +41,7 @@ const FormAccount = ({ profile }) => {
       firstName,
       email,
       phone,
-      birthdayFormat,
+      formatDate,
       province,
       district,
       ward,
@@ -53,7 +54,7 @@ const FormAccount = ({ profile }) => {
       firstName,
       phone,
       email,
-      birthdayFormat,
+      formatDate,
       province,
       district,
       ward,
@@ -151,8 +152,8 @@ const FormAccount = ({ profile }) => {
             <Input
               type="date"
               required
+              defaultValue={formatDate}
               label="Ngày sinh"
-              value={birthdayFormat}
               {...register("birthday", {
                 required: MESSAGE.require,
               })}
@@ -171,7 +172,7 @@ const FormAccount = ({ profile }) => {
                 return (
                   <>
                     <Select
-                      className="form-control form-select"
+                      className="customSelect"
                       suffixIcon={<></>}
                       showSearch
                       placeholder="Please select Provice/City"
@@ -203,7 +204,7 @@ const FormAccount = ({ profile }) => {
                 return (
                   <>
                     <Select
-                      className="form-select form-control"
+                      className="customSelect"
                       suffixIcon={<></>}
                       showSearch
                       placeholder="Please select District/Town"
@@ -235,7 +236,7 @@ const FormAccount = ({ profile }) => {
                 return (
                   <>
                     <Select
-                      className="form-select form-control"
+                      className="customSelect"
                       suffixIcon={<></>}
                       showSearch
                       placeholder="Please select Ward"

@@ -193,7 +193,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="form-control form-select"
+                        className="customSelect"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select Provice/City"
@@ -225,7 +225,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="form-select form-control"
+                        className="customSelect"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select District/Town"
@@ -257,7 +257,7 @@ const CheckoutForm = ({ handleCheckout }) => {
                   return (
                     <>
                       <Select
-                        className="form-select form-control"
+                        className="customSelect"
                         suffixIcon={<></>}
                         showSearch
                         placeholder="Please select Ward"
@@ -291,7 +291,7 @@ const CheckoutForm = ({ handleCheckout }) => {
             label="Notes"
             renderInput={(inputProps) => {
               return (
-                <Textarea
+                <textarea
                   {...inputProps}
                   {...register("note")}
                   className="form-control"
@@ -303,17 +303,6 @@ const CheckoutForm = ({ handleCheckout }) => {
             }}
             errors={errors?.note?.message || ""}
           />
-
-          {/* <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="checkout-create-acc"
-            />
-            <label className="custom-control-label" htmlFor="checkout-create-acc">
-              Create an account?
-            </label>
-          </div> */}
         </div>
         <aside className="col-lg-3">
           <div className="summary">

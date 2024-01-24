@@ -1,17 +1,28 @@
 import React, { forwardRef } from "react";
 
 const Input = forwardRef(
-  ({ label, required, name = "", errors, renderInput, className, ...rest }, ref) => {
+  (
+    {
+      label,
+      required,
+      name = "",
+      errors,
+      renderInput = undefined,
+      className,
+      ...rest
+    },
+    ref
+  ) => {
     return (
       <div className={`form-group ${className && className}`}>
         <label className="label" htmlFor={name}>
           {label} {required && <span>*</span>}
         </label>
-        {renderInput?.({ ...rest, errors, ref }) || (
+        {renderInput?.({ rest, errors, ref }) || (
           <input
             type="text"
             {...rest}
-            className={`form-control  ${errors ? "input-error" : ""}`}
+            className={`form-control  ${!!errors ? "input-error" : ""}`}
             ref={ref}
             name={name}
             id={name}
@@ -19,7 +30,7 @@ const Input = forwardRef(
         )}
         {errors && (
           <p className="error form-error" style={{ minHeight: 23 }}>
-            {errors}
+            {errors || ""}
           </p>
         )}
       </div>

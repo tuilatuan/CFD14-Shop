@@ -37,7 +37,7 @@ export const SORT_OPTIONS = {
 };
 export const PRICE_FIlTER = {
   minPrice: 0,
-  maxPrice: 1000,
+  maxPrice: 4500,
 };
 export const THUNK_STATUS = {
   pending: "pending",
